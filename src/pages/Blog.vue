@@ -1,12 +1,12 @@
 <template>
   <div class="home-container">
-    <h1>Home</h1>
+    <h1>Blog</h1>
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'home'
+  name: 'Blog'
 }
 </script>
 
@@ -14,5 +14,6 @@ export default {
 .home-container {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 </style>
