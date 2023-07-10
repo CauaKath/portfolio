@@ -7,7 +7,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -20,6 +20,10 @@ const router = createRouter({
       path: '/blog',
       name: 'blog',
       component: Blog
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/home'
     }
   ]
 })

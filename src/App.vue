@@ -1,28 +1,22 @@
 <script setup lang="ts">
-
-import { computed, ref } from 'vue';
 import Navbar from './components/Navbar.vue'
 import Switch from './components/Switch.vue'
 import { RouterView } from 'vue-router'
 
-const darkModeRef = ref(true)
+import { useDarkModeStore } from '@/store/darkMode'
+import { computed } from 'vue';
 
-const darkMode = computed({
-  get() {
-    return darkModeRef.value
-  },
-  set(value) {
-    darkModeRef.value = value
-  }
-})
+const darkModeStore = useDarkModeStore()
+
+const isDarkModeEnabled = computed(() => darkModeStore.isDarkModeEnabled)
 
 </script>
 
 <template>
-  <div class="flex justify-center transition duration-500" :class="darkMode ? 'bg-gray-950 text-gray-200' : 'bg-gray-200 text-gray-950'">
+  <div class="flex justify-center transition duration-500" :class="isDarkModeEnabled ? 'bg-gray-950 text-gray-200' : 'bg-gray-200 text-gray-950'">
     <Navbar class="fixed" />
 
-    <Switch @update-dark-mode="updatedDarkMode => darkMode = updatedDarkMode" />
+    <Switch />
 
     <RouterView class="h-screen w-screen font-bold" />
   </div>

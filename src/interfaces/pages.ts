@@ -1,5 +1,5 @@
 export const enum Pages {
-  ABOUT_ME = 'about_me',
+  ABOUT_ME = 'home',
   GAMES = 'games',
   BLOG = 'blog'
 }
