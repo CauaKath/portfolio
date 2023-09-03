@@ -79,6 +79,8 @@ export default {
       
       if (!timelines.length) return []
 
+      timelines.sort((a,b) => Date.parse(b.start) - Date.parse(a.start))
+
       return timelines
     },
 
