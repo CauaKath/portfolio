@@ -13,12 +13,12 @@ const isDarkModeEnabled = computed(() => darkModeStore.isDarkModeEnabled)
 </script>
 
 <template>
-  <div class="flex justify-center transition duration-500" :class="isDarkModeEnabled ? 'bg-gray-950 text-gray-200' : 'bg-gray-200 text-gray-950'">
+  <div class="flex justify-center transition duration-500" :class="isDarkModeEnabled ? 'bg-gray-950' : 'bg-gray-200'">
     <Navbar class="fixed" />
 
     <Switch />
 
-    <RouterView class="h-screen w-screen font-bold" />
+    <RouterView class="h-fit w-fit font-bold" />
   </div>
 </template>
 
@@ -33,5 +33,14 @@ const isDarkModeEnabled = computed(() => darkModeStore.isDarkModeEnabled)
 body {
   display: flex;
   justify-content: center;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>

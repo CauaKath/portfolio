@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useDarkModeStore } from '@/store/darkMode'
-// import { SwitchType } from '@/interfaces/switchType'
 
 export default {
   name: 'Switch',

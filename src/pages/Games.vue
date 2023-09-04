@@ -1,12 +1,19 @@
 <template>
-  <div class="home-container">
+  <div class="home-container h-screen w-screen" :class="darkModeStore.isDarkModeEnabled ? 'bg-gray-800 text-gray-200' : 'bg-slate-300 text-gray-950'">
     <h1>Games</h1>
   </div>
 </template>
 
 <script lang="ts">
+import { useDarkModeStore } from '@/store/darkMode'
+
 export default {
-  name: 'Games'
+  name: 'Games',
+  data() {
+    return {
+      darkModeStore: useDarkModeStore(),
+    }
+  },
 }
 </script>
 
