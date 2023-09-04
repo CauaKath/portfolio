@@ -25,7 +25,7 @@
 
         <div class="relative max-w-[1140px] m-auto px-4 after:absolute after:bg-emerald-700 after:top-0 after:bottom-0 after:left-1/2 after:w-0.5">
           <TimelinePoint
-            v-for="{ id, title, location, type, start, end } in timelines"
+            v-for="({ id, title, location, type, start, end }, index) in timelines"
             :period="{
               id: id,
               title: title,
@@ -34,7 +34,7 @@
               start: start,
               end: end || 'Presente'
             }"
-            :side="id % 2 === 0 ? 'right' : 'left'"
+            :side="index % 2 !== 0 ? 'right' : 'left'"
           />
         </div>
       </div>
