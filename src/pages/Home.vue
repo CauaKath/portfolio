@@ -23,7 +23,11 @@
       <div class="h-[40%] p-10 transition duration-500" :class="darkModeStore.isDarkModeEnabled ? 'bg-slate-900 text-slate-200' : 'bg-slate-400 text-slate-950'">
         <h2 class="text-lg font-bold">My Timeline</h2>
 
-        <div class="relative max-w-[1140px] m-auto px-4 after:absolute after:bg-emerald-700 after:top-0 after:bottom-0 after:left-1/2 after:w-0.5">
+        <div v-if="timelineLoading" class="relative max-w-[1140px] my-16 mx-auto px-4 flex justify-center items-center">
+          <Loading />
+        </div>
+
+        <div v-else class="relative max-w-[1140px] m-auto px-4 after:absolute after:bg-emerald-700 after:top-0 after:bottom-0 after:left-1/2 after:w-0.5">
           <TimelinePoint
             v-for="({ id, title, location, type, start, end }, index) in timelines"
             :period="{
@@ -45,6 +49,7 @@
 <script lang="ts">
 import axios from 'axios'
 import TimelinePoint from '../components/TimelinePoint.vue'
+import Loading from '../components/Loading.vue'
 import { TimelinePointType, type ITimelinePoint } from '@/interfaces/timelinePoint'
 import { useDarkModeStore } from '@/store/darkMode'
 
@@ -52,11 +57,13 @@ export default {
   name: 'Home',
   components: {
     TimelinePoint,
+    Loading
   },
   data() {
     return {
       darkModeStore: useDarkModeStore(),
       timelines: <ITimelinePoint[]>[],
+      timelineLoading: false,
 
       workType: TimelinePointType.WORK,
       educationType: TimelinePointType.EDUCATION,
@@ -68,6 +75,8 @@ export default {
   },
   methods: {
     async handleTimeline(): Promise<ITimelinePoint[]> {
+      this.timelineLoading = true
+
       const timelines: ITimelinePoint[] = await axios.get<{ data: ITimelinePoint[] }>(
         `${this.getTimelineServerUrl()}/timeline`
       )
@@ -80,6 +89,8 @@ export default {
       if (!timelines.length) return []
 
       timelines.sort((a,b) => Date.parse(b.start) - Date.parse(a.start))
+
+      this.timelineLoading = false
 
       return timelines
     },
