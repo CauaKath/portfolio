@@ -8,8 +8,8 @@
             Hello, my name is Cauã and I'm backend developer.
             I'm currently doing a degree in Systems Analysis and Development on UniSENAI college.
             I really like to create code that's why I'm coding this page to show my online resumé and improve my code skills.
-            Born in Brazil but, want to know the entire world someday (Learning english to reach it).
-            My goal is transform this web page into a portfolio with a lot of features, like games, blog, calculator, clocks and more.
+            Born in Brazil but, I wanna know the entire world oneday (I'm learning english to reach this).
+            My goal is to transform this web page into a portfolio with a lot of features, like games, blog, calculator, clocks and more.
             <br><br>
             Hope that you who is reading this enjoy the page :)
           </p>
@@ -23,21 +23,12 @@
       <div class="h-[40%] p-10 transition duration-500" :class="darkModeStore.isDarkModeEnabled ? 'bg-slate-900 text-slate-200' : 'bg-slate-400 text-slate-950'">
         <h2 class="text-lg font-bold">My Timeline</h2>
 
-        <div v-if="timelineLoading" class="relative max-w-[1140px] my-16 mx-auto px-4 flex justify-center items-center">
-          <Loading />
-        </div>
-
-        <div v-else class="relative max-w-[1140px] m-auto px-4 after:absolute after:bg-emerald-700 after:top-0 after:bottom-0 after:left-1/2 after:w-0.5">
+        <div class="relative max-w-[1140px] m-auto px-4">
           <TimelinePoint
-            v-for="({ id, title, location, type, start, end }, index) in timelines"
-            :period="{
-              id: id,
-              title: title,
-              location: location,
-              type: type,
-              start: start,
-              end: end || 'Presente'
-            }"
+            v-for="(year, index) in Object.keys(timelinePoints)"
+            class="mt-6"
+            :year="year"
+            :points="timelinePoints[year]"
             :side="index % 2 !== 0 ? 'right' : 'left'"
           />
         </div>
@@ -47,58 +38,23 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
 import TimelinePoint from '../components/TimelinePoint.vue'
-import Loading from '../components/Loading.vue'
-import { TimelinePointType, type ITimelinePoint } from '@/interfaces/timelinePoint'
 import { useDarkModeStore } from '@/store/darkMode'
+import { timelinePoints as timelineMock } from '../data/timeline'
 
 export default {
   name: 'Home',
+  
   components: {
-    TimelinePoint,
-    Loading
+    TimelinePoint
   },
+
   data() {
     return {
       darkModeStore: useDarkModeStore(),
-      timelines: <ITimelinePoint[]>[],
-      timelineLoading: false,
-
-      workType: TimelinePointType.WORK,
-      educationType: TimelinePointType.EDUCATION,
-      otherType: TimelinePointType.OTHER,
+      timelinePoints: timelineMock,
     }
   },
-  async mounted() {
-    this.timelines = await this.handleTimeline()
-  },
-  methods: {
-    async handleTimeline(): Promise<ITimelinePoint[]> {
-      this.timelineLoading = true
-
-      const timelines: ITimelinePoint[] = await axios.get<{ data: ITimelinePoint[] }>(
-        `${this.getTimelineServerUrl()}/timeline`
-      )
-        .then(response => response.data.data)
-        .catch(error => {
-          console.error(error)
-          return []
-        })
-      
-      if (!timelines.length) return []
-
-      timelines.sort((a,b) => Date.parse(b.start) - Date.parse(a.start))
-
-      this.timelineLoading = false
-
-      return timelines
-    },
-
-    getTimelineServerUrl() {
-      return import.meta.env.VITE_TIMELINE_SERVER_URL
-    }
-  }
 }
 </script>
 

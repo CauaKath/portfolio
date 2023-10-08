@@ -1,3 +1,7 @@
+export interface ITimelineList {
+  [key: string]: ITimelinePoint[];
+}
+
 export interface ITimelinePoint {
   id: number;
   title: string;
